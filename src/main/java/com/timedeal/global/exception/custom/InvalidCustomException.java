@@ -8,7 +8,7 @@ public class InvalidCustomException extends RuntimeException {
     private final BaseResponseStatus status;
 
     public InvalidCustomException(BaseResponseStatus status) {
-        super(status.getMessage());
+        super(status.getDetail());
         this.status = status;
     }
 
