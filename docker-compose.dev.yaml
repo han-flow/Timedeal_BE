@@ -1,0 +1,40 @@
+# 시작 명령어
+# docker-compose -f docker-compose.dev.yaml up -d
+
+# 종료 명령어 [볼륨 및 네트워크]
+# docker-compose -f docker-compose.dev.yaml down -v
+
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql_dev
+    ports:
+      - "${MYSQL_PORT_DEV}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DEV_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DEV_DB}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - dev_network
+
+  redis:
+    image: redis:latest
+    container_name: redis_dev
+    ports:
+      - "${REDIS_PORT_DEV}:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly no
+    networks:
+      - dev_network
+
+
+networks:
+  dev_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  redis_data:
